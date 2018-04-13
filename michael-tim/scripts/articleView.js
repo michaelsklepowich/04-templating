@@ -5,14 +5,11 @@ let articleView = {};
 // TODO: Where possible, refactor methods into arrow functions, including the document.ready() method at the bottom.
 
 // COMMENT: How do arrow functions affect the context of "this"? How did you determine if a function could be refactored?
-// PUT YOUR RESPONSE HERE
+// Arrow functions themselves don't have their own "this." We determined whether or not a function could be refactored was testing them individually, if our working program broke; then we couldn't use arrow notation.
 
 articleView.populateFilters = function() {
-  console.log('this was called');
   $('article').each(function() {
-    console.log('iterations');
     if (!$(this).hasClass('template')) {
-      console.log('condition met');
       let val = $(this).find('address a').text();
       let optionTag = `<option value="${val}">${val}</option>`;
 
@@ -21,7 +18,6 @@ articleView.populateFilters = function() {
       }
 
       val = $(this).attr('data-category');
-      console.log(val);
       optionTag = `<option value="${val}">${val}</option>`;
       if ($(`#category-filter option[value="${val}"]`).length === 0) {
         $('#category-filter').append(optionTag);
@@ -30,8 +26,8 @@ articleView.populateFilters = function() {
   });
 };
 
-articleView.handleAuthorFilter = function() {
-  $('#author-filter').on('change', function() {
+articleView.handleAuthorFilter = () => {
+  $('#author-filter').on('change', () => {
     if ($(this).val()) {
       $('article').hide();
       $(`article[data-author="${$(this).val()}"]`).fadeIn();
@@ -43,8 +39,8 @@ articleView.handleAuthorFilter = function() {
   });
 };
 
-articleView.handleCategoryFilter = function() {
-  $('#category-filter').on('change', function() {
+articleView.handleCategoryFilter = () => {
+  $('#category-filter').on('change', () => {
     if ($(this).val()) {
       $('article').hide();
       $(`article[data-category="${$(this).val()}"]`).fadeIn();
@@ -56,7 +52,7 @@ articleView.handleCategoryFilter = function() {
   });
 };
 
-articleView.handleMainNav = function() {
+articleView.handleMainNav = () => {
   $('.main-nav').on('click', '.tab', function(e) {
     e.preventDefault();
     $('.tab-content').hide();
@@ -66,7 +62,7 @@ articleView.handleMainNav = function() {
   $('.main-nav .tab:first').click();
 };
 
-articleView.setTeasers = function() {
+articleView.setTeasers = () => {
   $('.article-body *:nth-of-type(n+2)').hide();
   $('article').on('click', 'a.read-on', function(e) {
     e.preventDefault();
@@ -82,14 +78,6 @@ articleView.setTeasers = function() {
     }
   });
 };
-
-// $(document).ready(function() {
-//   articleView.populateFilters();
-//   articleView.handleCategoryFilter();
-//   articleView.handleAuthorFilter();
-//   articleView.handleMainNav();
-//   articleView.setTeasers();
-// })
 
 $(document).ready(() => {
   articleView.populateFilters();
